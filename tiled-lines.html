@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            margin:0;
+            padding: 0;
+        }
+        canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+    <h1>Does it slow down the page load?</h1>
+    <canvas></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let context = canvas.getContext('2d');
+        
+        let screenWidth = window.innerWidth;
+        let screenHeight = window.innerHeight;
+        let dpr = window.devicePixelRatio;
+
+        canvas.width = screenWidth * dpr;
+        canvas.height = screenHeight * dpr;
+
+        context.scale(dpr, dpr);
+
+        context.lineCap = "square";
+        context.lineWidth = 5;
+
+        let step = 80;
+
+
+        function draw(x, y, width, height){
+
+            let leftToRight = Math.random() >= 0.5;
+
+            if(leftToRight) {
+                context.moveTo(x,y);
+                context.lineTo(x + width, y + height);
+            }
+            else {
+                context.moveTo(x+width, y);
+                context.lineTo(x, y+height);
+            }
+
+           
+            context.stroke();
+        }
+
+
+        for (var x = 0 ; x < screenWidth; x+=step) {
+            for (var y = 0; y < screenHeight; y+=step){
+                draw(x,y,step,step);
+            }
+        }
+    </script>
+</body>
+</html>
