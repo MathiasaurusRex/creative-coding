@@ -65,6 +65,7 @@
         context.lineCap = "square";
         context.lineWidth = 2;
 
+        let frequency = 1000;
         let randomHeight;
         // Get a random value along the x axis
         let randomWidth;
@@ -77,7 +78,7 @@
             console.log("randomWidth: " + randomWidth);
             console.log("randomHeight: " + randomHeight);
             draw(randomWidth, randomHeight, screenWidth, screenHeight);
-        }, 500);
+        }, frequency);
         
 
         function draw(randomX, randomY, width, height){
@@ -86,6 +87,7 @@
                 // Bottom Right to Top
                 context.moveTo(randomX / 2 , 0);
                 context.lineTo(width, height);
+
                 //Bottom Right to Left/
                 context.moveTo(0, randomY / 2);
                 context.lineTo(width, height);
@@ -107,7 +109,6 @@
                  // Bottom Left to Right
                 context.moveTo(width, randomY / 2);
                 context.lineTo(0 , height);
-
                 // Bottom Left to Top
                 context.moveTo(randomX / 2 , 0);
                 context.lineTo(0 , height);
