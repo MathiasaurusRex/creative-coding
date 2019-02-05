@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            margin:0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+        .corner {
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 50%;
+        }
+        .top-left {
+            top: -50px;
+            left: -50px;
+        }
+
+        .top-right {
+            top: -50px;
+            right: -50px;
+        }
+        .bottom-left {
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .bottom-right {
+            bottom: -50px;
+            right: -50px;
+        }
+    </style>
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
+    <canvas></canvas>
+    <script>
+        let canvas = document.querySelector('canvas');
+        let context = canvas.getContext('2d');
+        
+        let screenWidth = window.innerWidth;
+        let screenHeight = window.innerHeight;
+        let dpr = window.devicePixelRatio;
+
+        canvas.width = screenWidth * dpr;
+        canvas.height = screenHeight * dpr;
+
+        context.scale(dpr, dpr);
+
+        context.lineCap = "square";
+        context.lineWidth = 2;
+
+        let frequency = 1000;
+        let randomHeight;
+        // Get a random value along the x axis
+        let randomWidth;
+        
+        let directionalArray = ["top", "right", "bottom", "left"];
+        let directionalArrayCount = 0;
+        // First we need to loop between 4 states within the timeout
+
+        let directionalLoop = setInterval(function(){ 
+            // draw(randomWidth, randomHeight, screenWidth, screenHeight);
+            if(directionalArrayCount === 3) {
+                directionalArrayCount = 0;
+            }
+            else {
+                directionalArrayCount++;
+            }
+        }, frequency);
+
+        function getRandomHeight(){
+            return Math.floor(Math.random() * Math.floor(canvas.height));
+        }
+        function getRandomWidth(){
+            return  Math.floor(Math.random() * Math.floor(canvas.width));
+        }
+        
+        // function directionalDraw(direction) {
+            
+        // }
+
+        // function draw(randomX, randomY, width, height){
+        //     // let randomCorner = Math.floor(Math.random())
+
+        //         // Bottom Right to Top
+        //         context.moveTo(randomX / 2 , 0);
+        //         context.lineTo(width, height);
+
+        //         //Bottom Right to Left/
+        //         context.moveTo(0, randomY / 2);
+        //         context.lineTo(width, height);
+
+        //         // Top Left to Right
+        //         context.moveTo(width, randomY / 2);
+        //         context.lineTo(0, 0);
+        //         // Top Left to Bottom
+        //         context.moveTo(randomX / 2, height);
+        //         context.lineTo(0, 0);
+
+        //         // Top Right to Left
+        //         context.moveTo(0 , randomY / 2);
+        //         context.lineTo(width, 0);
+        //         // Top Right to Bottom
+        //         context.moveTo(randomX / 2, height);
+        //         context.lineTo(width, 0);
+
+        //          // Bottom Left to Right
+        //         context.moveTo(width, randomY / 2);
+        //         context.lineTo(0 , height);
+        //         // Bottom Left to Top
+        //         context.moveTo(randomX / 2 , 0);
+        //         context.lineTo(0 , height);
+                
+        //         context.stroke();
+        // }
+
+        
+
+                    
+
+    </script>
+</body>
+</html>
