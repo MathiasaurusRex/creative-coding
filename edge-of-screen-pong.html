@@ -43,13 +43,11 @@
         context.lineCap = "square";
         context.lineWidth = 2;
 
-        let frequency = 1000;
-        let randomHeight;
-        // Get a random value along the x axis
-        let randomWidth;
         
         let directionalArray = ["top", "right", "bottom", "left"];
         let directionalArrayCount = 0;
+        let regularCount = 0;
+        let frequency = 1000;
         // First we need to loop between 4 states within the timeout
 
         let directionalLoop = setInterval(function(){ 
@@ -61,18 +59,25 @@
             else {
                 directionalArrayCount++;
             }
+            regularCount++;
         }, frequency);
 
         function getRandomHeight(){
-            return Math.floor(Math.random() * Math.floor(canvas.height)) / 2 ;
+            return Math.floor(Math.random() * Math.floor(canvas.height)) / dpr ;
         }
         function getRandomWidth(){
-            return  Math.floor(Math.random() * Math.floor(canvas.width)) / 2 ;
+            return  Math.floor(Math.random() * Math.floor(canvas.width)) / dpr ;
         }
         
         function directionalDraw(direction) {
             let newRandomHeight = getRandomHeight();
             let newRandomWidth = getRandomWidth();
+            context.beginPath();
+            context.strokeStyle = `rgb(
+                0,
+                ${Math.floor(255 - 42.5 * regularCount)},
+                ${Math.floor(255 - 42.5 * regularCount * 2)})`;
+            
             switch(direction){
                 case "top":
                     context.moveTo(screenWidth, newRandomHeight);
@@ -98,6 +103,7 @@
                     context.stroke();
                     break;
             }
+            context.closePath();
         }
 
         // function draw(randomX, randomY, width, height){
