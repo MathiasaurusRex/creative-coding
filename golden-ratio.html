@@ -46,11 +46,17 @@
         context.lineCap = "square";
         context.lineWidth = 2;
 
+
+
         
         let directionalArray = ["top", "right", "bottom", "left"];
         let directionalArrayCount = 0;
         let regularCount = 0;
-        let frequency = 1000;
+        let frequency = 10;
+
+        let starting = 1;
+        let multiplier = 3.14;
+
         // First we need to loop between 4 states within the timeout
 
         let directionalLoop = setInterval(function(){ 
@@ -63,6 +69,14 @@
                 directionalArrayCount++;
             }
             regularCount++;
+            if(screenWidth > screenHeight && starting > screenWidth) {
+                console.log("done");
+                clearInterval(directionalLoop);
+            }
+            else if(screenWidth < screenHeight && starting < screenHeight) {
+                console.log("done");
+                clearInterval(directionalLoop);
+            }
         }, frequency);
 
         function getRandomHeight(){
@@ -77,72 +91,39 @@
             let newRandomWidth = getRandomWidth();
             context.beginPath();
             context.strokeStyle = `rgb(
-                0,
-                ${Math.floor(255 - 32 * (directionalArrayCount / 2))},
-                ${Math.floor(255 - 32 * (directionalArrayCount / 2))})`;
-            
+                ${starting / 255},
+                60,
+                ${starting / 255})`;
+            console.log(starting);
             switch(direction){
                 case "top":
-                    context.moveTo(screenWidth, newRandomHeight);
-                    context.lineTo(newRandomWidth, 0);
+                    context.moveTo(screenWidth, starting);
+                    context.lineTo(starting, 0);
+                    starting = starting + multiplier;
                     context.stroke();
                     break;
                 case "right":
-                    console.log("To the right: " + direction);
-                    context.moveTo(newRandomWidth, screenHeight);
-                    context.lineTo(screenWidth, newRandomHeight);
+
+                    context.moveTo(screenWidth - starting, screenHeight);
+                    context.lineTo(screenWidth, starting);
+                    starting = starting + multiplier;
                     context.stroke();
                     break;
                 case "bottom":
-                    console.log("To the bottom: " + direction);
-                    context.moveTo(0, newRandomHeight);
-                    context.lineTo(newRandomWidth, screenHeight);
+                    context.moveTo(0, screenHeight - starting);
+                    context.lineTo(screenWidth - starting, screenHeight);
+                    starting = starting + multiplier;
                     context.stroke();
                     break;
                 case "left":
-                    console.log("To the left: " + direction);
-                    context.moveTo(newRandomWidth, 0);
-                    context.lineTo(0, newRandomHeight);
+                    context.moveTo(starting, 0);
+                    context.lineTo(0, screenHeight - starting);
+                    starting = starting + multiplier;
                     context.stroke();
                     break;
             }
             context.closePath();
         }
-
-        // function draw(randomX, randomY, width, height){
-        //     // let randomCorner = Math.floor(Math.random())
-
-        //         // Bottom Right to Top
-                // context.moveTo(randomX / 2 , 0);
-                // context.lineTo(width, height);
-
-                // //Bottom Right to Left/
-                // context.moveTo(0, randomY / 2);
-                // context.lineTo(width, height);
-
-                // // Top Left to Right
-                // context.moveTo(width, randomY / 2);
-                // context.lineTo(0, 0);
-                // // Top Left to Bottom
-                // context.moveTo(randomX / 2, height);
-                // context.lineTo(0, 0);
-
-                // // Top Right to Left
-                // context.moveTo(0 , randomY / 2);
-                // context.lineTo(width, 0);
-                // // Top Right to Bottom
-                // context.moveTo(randomX / 2, height);
-                // context.lineTo(width, 0);
-
-                //  // Bottom Left to Right
-                // context.moveTo(width, randomY / 2);
-                // context.lineTo(0 , height);
-                // // Bottom Left to Top
-                // context.moveTo(randomX / 2 , 0);
-                // context.lineTo(0 , height);
-                
-                // context.stroke();
-        // }
 
         
 
