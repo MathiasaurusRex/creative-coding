@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            margin:0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(12, 12, 12);
+        }
+        .corner {
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 50%;
+        }
+    </style>
+    <canvas></canvas>
+    <script>
+
+let canvas = document.querySelector('canvas');
+        let context = canvas.getContext('2d');
+        
+        let screenWidth = window.innerWidth;
+        let screenHeight = window.innerHeight;
+        let dpr = window.devicePixelRatio;
+
+        canvas.width = screenWidth * dpr;
+        canvas.height = screenHeight * dpr;
+
+        context.scale(dpr, dpr);
+
+        context.lineCap = "square";
+        context.lineWidth = 2;
+        
+      
+        let directionalArray = ["left", "right", "top", "bottom"];
+
+        directionalArray = shuffle(directionalArray);4
+
+        
+        directionalArray = directionalArray.slice(0, - randomIntFromInterval(1, 3));
+
+        let directionalArrayCount = 0;
+        let regularCount = 0;
+        let frequency = 10;
+
+        let starting = 1;
+        let multiplier = 3.14;
+
+        // First we need to loop between 4 states within the timeout
+
+        let directionalLoop = setInterval(function(){ 
+            // draw(randomWidth, randomHeight, screenWidth, screenHeight);
+            directionalDraw(directionalArray[directionalArrayCount])
+            if(directionalArrayCount === 3) {
+                directionalArrayCount = 0;
+            }
+            else {
+                directionalArrayCount++;
+            }
+            regularCount++;
+            if(screenWidth > screenHeight && starting > screenWidth) {
+                console.log("done");
+                clearInterval(directionalLoop);
+            }
+            else if(screenWidth < screenHeight && starting > screenHeight) {
+                console.log("done");
+                clearInterval(directionalLoop);
+            }
+        }, frequency);
+
+        function getRandomHeight(){
+            return Math.floor(Math.random() * Math.floor(canvas.height)) / dpr ;
+        }
+        function getRandomWidth(){
+            return  Math.floor(Math.random() * Math.floor(canvas.width)) / dpr ;
+        }
+        function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
+        }
+        function randomIntFromInterval(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        }
+        
+        function directionalDraw(direction) {
+            let newRandomHeight = getRandomHeight();
+            let newRandomWidth = getRandomWidth();
+            context.beginPath();
+            console.log(starting / 5);
+
+            // context.strokeStyle = `rgb(
+            //     50,
+            //     230,
+            //     ${starting / 5})`;
+            context.strokeStyle = `hsla(288, 33%, 45%, 1)`;
+            context.shadowBlur = 10;
+            context.shadowColor = `hsla(288, 33%, 50%, 1)`;
+            switch(direction){
+                case "top":
+                    context.moveTo(starting, 0);
+                    context.lineTo(screenWidth, starting);
+                    starting = starting + ( multiplier + (regularCount / 4) );
+                    context.stroke();
+                    break;
+                case "right":
+
+                    context.moveTo(screenWidth, starting);
+                    context.lineTo(screenWidth - starting, screenHeight);
+                    starting = starting + ( multiplier + (regularCount / 4) );
+                    context.stroke();
+                    break;
+                case "bottom":
+                    context.moveTo(screenWidth - starting, screenHeight);
+                    context.lineTo(0, screenHeight - starting);
+                    starting = starting + ( multiplier + (regularCount / 4) );
+                    context.stroke();
+                    break;
+                case "left":
+                    context.moveTo(0, screenHeight - starting);
+                    context.lineTo(starting, 0);
+                    starting = starting + ( multiplier + (regularCount / 4) );
+                    context.stroke();
+                    break;
+            }
+            context.closePath();
+        }
+
+
+    </script>
+</body>
+</html>

@@ -16,6 +16,7 @@
         canvas {
             width: 100vw;
             height: 100vh;
+            background-color: rgb(12, 12, 12);
         }
         .corner {
             height: 100px;
@@ -29,8 +30,6 @@
     <canvas></canvas>
     <script>
 
-        // Notes:
-        // This one is a bit random. It just bounces from top -> right -> bottom -> left
         let canvas = document.querySelector('canvas');
         let context = canvas.getContext('2d');
         
@@ -46,10 +45,7 @@
         context.lineCap = "square";
         context.lineWidth = 2;
 
-
-
-        
-        let directionalArray = ["top", "right", "bottom", "left"];
+        let directionalArray = ["top", "bottom", "left", "right"];
         let directionalArrayCount = 0;
         let regularCount = 0;
         let frequency = 10;
@@ -90,35 +86,37 @@
             let newRandomHeight = getRandomHeight();
             let newRandomWidth = getRandomWidth();
             context.beginPath();
-            context.strokeStyle = `rgb(
-                ${starting / 255},
-                60,
-                ${starting / 255})`;
-            console.log(starting);
+            console.log(starting / 5);
+
+            // context.strokeStyle = `rgb(
+            //     50,
+            //     230,
+            //     ${starting / 5})`;
+            context.strokeStyle = `hsla(${starting * 2  }, 33%, 25%, 1)`;
             switch(direction){
                 case "top":
-                    context.moveTo(screenWidth, starting);
-                    context.lineTo(starting, 0);
-                    starting = starting + multiplier;
+                    context.moveTo(starting, 0);
+                    context.lineTo(screenWidth, starting);
+                    starting = starting + ( multiplier + (regularCount / 4) );
                     context.stroke();
                     break;
                 case "right":
 
-                    context.moveTo(screenWidth - starting, screenHeight);
-                    context.lineTo(screenWidth, starting);
-                    starting = starting + multiplier;
+                    context.moveTo(screenWidth, starting);
+                    context.lineTo(screenWidth - starting, screenHeight);
+                    starting = starting + ( multiplier + (regularCount / 4) );
                     context.stroke();
                     break;
                 case "bottom":
-                    context.moveTo(0, screenHeight - starting);
-                    context.lineTo(screenWidth - starting, screenHeight);
-                    starting = starting + multiplier;
+                    context.moveTo(screenWidth - starting, screenHeight);
+                    context.lineTo(0, screenHeight - starting);
+                    starting = starting + ( multiplier + (regularCount / 4) );
                     context.stroke();
                     break;
                 case "left":
-                    context.moveTo(starting, 0);
-                    context.lineTo(0, screenHeight - starting);
-                    starting = starting + multiplier;
+                    context.moveTo(0, screenHeight - starting);
+                    context.lineTo(starting, 0);
+                    starting = starting + ( multiplier + (regularCount / 4) );
                     context.stroke();
                     break;
             }
